@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>happy 22nd birthday, Phúc 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ec;
+    --blush: #f2c4b8;
+    --rose: #d4836a;
+    --gold: #e8c87a;
+    --deep-rose: #a85a45;
+    --night: #0d0a1a;
+    --deep-night: #060410;
+    --midnight: #100d22;
+    --star-white: #fff9f0;
+    --lavender: #c4b8d4;
+    --soft-purple: #7b6fa0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-night);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* === CUSTOM CURSOR === */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 12px var(--gold), 0 0 24px rgba(232,200,122,0.4);
+  }
+  .cursor-trail {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(232,200,122,0.4);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+
+  /* === STARS CANVAS === */
+  #starCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* === AUDIO BUTTON === */
+  .audio-btn {
+    position: fixed;
+    top: 24px; right: 24px;
+    z-index: 1000;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(232,200,122,0.3);
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .audio-btn:hover {
+    background: rgba(232,200,122,0.15);
+    border-color: var(--gold);
+  }
+  .audio-icon { font-size: 1rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  /* === SECTIONS === */
+  section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+  }
+
+  /* ====== SECTION 1: HERO ====== */
+  #hero {
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,131,106,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(123,111,160,0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 80% 20%, rgba(232,200,122,0.08) 0%, transparent 60%);
+  }
+
+  .hero-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+    text-shadow: 0 0 20px rgba(232,200,122,0.5);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 700;
+    line-height: 0.9;
+    text-align: center;
+    margin: 16px 0;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.8s forwards;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 40%, var(--blush) 70%, var(--cream) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(232,200,122,0.3));
+  }
+
+  .hero-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 8vw, 7rem);
+    color: var(--blush);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 1.1s forwards;
+    text-shadow: 0 0 40px rgba(242,196,184,0.6), 0 0 80px rgba(242,196,184,0.2);
+  }
+
+  .hero-age {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-style: italic;
+    color: var(--lavender);
+    letter-spacing: 0.15em;
+    margin-top: 12px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.4s forwards;
+  }
+
+  .hero-divider {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 32px auto;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.7s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.5s forwards;
+  }
+  .hero-scroll span {
+    font-family: 'Dancing Script', cursive;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.2em;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(180deg, transparent, var(--gold));
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100%{opacity:0.3; transform:scaleY(1)}
+    50%{opacity:1; transform:scaleY(1.2)}
+  }
+
+  /* Floating petals */
+  .petal {
+    position: absolute;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    opacity: 0;
+    animation: floatPetal linear infinite;
+    pointer-events: none;
+  }
+  @keyframes floatPetal {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ====== SECTION 2: THE LETTER BACK ====== */
+  #letter {
+    background: transparent;
+  }
+
+  .letter-wrapper {
+    max-width: 720px;
+    width: 100%;
+    position: relative;
+  }
+
+  .letter-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+  .letter-label.visible { animation: fadeUp 1s ease forwards; }
+
+  .letter-paper {
+    background: linear-gradient(135deg, rgba(253,246,236,0.05) 0%, rgba(253,246,236,0.02) 100%);
+    border: 1px solid rgba(232,200,122,0.15);
+    border-radius: 2px;
+    padding: clamp(40px, 6vw, 72px);
+    position: relative;
+    backdrop-filter: blur(4px);
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+  .letter-paper.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .letter-paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background: linear-gradient(135deg, rgba(232,200,122,0.05) 0%, transparent 50%, rgba(242,196,184,0.05) 100%);
+    pointer-events: none;
+  }
+
+  .letter-corner {
+    position: absolute;
+    width: 40px; height: 40px;
+    opacity: 0.3;
+  }
+  .letter-corner.tl { top: 12px; left: 12px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .letter-corner.tr { top: 12px; right: 12px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .letter-corner.bl { bottom: 12px; left: 12px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .letter-corner.br { bottom: 12px; right: 12px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  .letter-greeting {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--blush);
+    margin-bottom: 32px;
+    line-height: 1.4;
+  }
+
+  .letter-body {
+    font-family: 'Lora', serif;
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    line-height: 2;
+    color: rgba(253,246,236,0.85);
+    margin-bottom: 24px;
+  }
+  .letter-body em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .letter-body strong {
+    color: var(--blush);
+    font-weight: 400;
+  }
+
+  .letter-quote {
+    border-left: 2px solid var(--rose);
+    padding-left: 20px;
+    margin: 32px 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--cream);
+    opacity: 0.8;
+    line-height: 1.8;
+  }
+
+  .letter-sign {
+    margin-top: 48px;
+    text-align: right;
+  }
+  .letter-sign-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .letter-sign-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(232,200,122,0.4);
+  }
+
+  /* ====== SECTION 3: MEMORIES / WISHES ====== */
+  #wishes {
+    background: transparent;
+  }
+
+  .wishes-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: 16px;
+    color: var(--cream);
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(30px);
+  }
+  .wishes-title.visible { opacity: 1; transform: translateY(0); }
+
+  .wishes-subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 64px;
+    opacity: 0;
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+    transform: translateY(20px);
+  }
+  .wishes-subtitle.visible { opacity: 1; transform: translateY(0); }
+
+  .wishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 960px;
+    width: 100%;
+  }
+
+  .wish-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+  }
+  .wish-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(232,200,122,0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .wish-card:hover::before { opacity: 1; }
+  .wish-card:hover {
+    border-color: rgba(232,200,122,0.3);
+    transform: translateY(-4px);
+  }
+  .wish-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .wish-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(232,200,122,0.5));
+  }
+  .wish-text {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(253,246,236,0.75);
+  }
+  .wish-text strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  /* ====== SECTION 4: FIREWORKS FINALE ====== */
+  #finale {
+    text-align: center;
+    position: relative;
+  }
+
+  #fireworkCanvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .finale-tagline {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .finale-tagline.visible { opacity: 1; }
+
+  .finale-big {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-style: italic;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    opacity: 0;
+    transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    transform: scale(0.95);
+    background: linear-gradient(135deg, var(--cream), var(--gold), var(--blush));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .finale-big.visible { opacity: 1; transform: scale(1); }
+
+  .finale-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-style: italic;
+    color: rgba(253,246,236,0.6);
+    max-width: 500px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+    opacity: 0;
+    transition: opacity 1s ease 0.6s;
+  }
+  .finale-sub.visible { opacity: 1; }
+
+.cat-art {
+    width: clamp(100px, 15vw, 140px); /* Tự động thu phóng theo màn hình */
+    height: clamp(100px, 15vw, 140px);
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 50%; /* Cắt ảnh thành hình tròn hoàn hảo */
+    border: 2px solid var(--gold); /* Viền vàng mỏng sang trọng */
+    display: block;
+    margin: 0 auto 16px auto; /* Căn giữa ảnh */
+    box-shadow: 0 0 30px rgba(242,196,184,0.3); /* Hào quang tỏa ra xung quanh */
+    opacity: 0;
+    transition: opacity 1s ease 0.9s, transform 0.5s ease;
+    animation: gentleFloat 4s ease-in-out infinite; /* Hiệu ứng lơ lửng chậm rãi */
+  }
+  
+  .cat-art.visible { opacity: 1; }
+
+  /* Hiệu ứng lơ lửng nhẹ nhàng, không bị xoay nghiêng mặt */
+  @keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ====== FOOTER ====== */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.25);
+  }
+  footer span { color: var(--rose); }
+
+  /* ====== ANIMATIONS ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 600px) {
+    .letter-paper { padding: 32px 24px; }
+    .wishes-grid { grid-template-columns: 1fr; }
+  }
+
+  /* === Shimmer line decoration === */
+  .shimmer-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 48px;
+    animation: shimmerMove 3s ease infinite;
+    background-size: 200% 100%;
+  }
+  @keyframes shimmerMove {
+    0%{background-position:200% 0}
+    100%{background-position:-200% 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- Star canvas -->
+<canvas id="starCanvas"></canvas>
+
+<!-- Audio -->
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<button class="audio-btn" id="audioBtn" onclick="toggleAudio()">
+  <span class="audio-icon" id="audioIcon">♪</span>
+  <span id="audioLabel">it's your birthday, we gon' celebrate cho đến hết ngày</span>
+</button>
+
+<!-- ===== SECTION 1: HERO ===== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Floating petals -->
+  <div id="petals"></div>
+
+  <p class="hero-date">30 · 04 · 2026</p>
+  <h1 class="hero-title">many happy<br>returns</h1>
+  <h2 class="hero-name">Phúc ♡</h2>
+  <p class="hero-age">22 tuổi rồi nha - chúc mừng sinh nhật, Phúc húi</p>
+  <div class="hero-divider"></div>
+
+  <div class="hero-scroll">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: LETTER ===== -->
+<section id="letter">
+  <div class="letter-wrapper">
+    <p class="letter-label reveal">✦ &nbsp; một lá thư nhỏ &nbsp; ✦</p>
+    <div class="letter-paper reveal-card">
+      <div class="letter-corner tl"></div>
+      <div class="letter-corner tr"></div>
+      <div class="letter-corner bl"></div>
+      <div class="letter-corner br"></div>
+
+<p class="letter-greeting">Phúc ơi,</p>
+
+      <p class="letter-body">
+        hôm nay bà chính thức bước sang tuổi 22 rồi. ngồi ngẫm nghĩ xem nên viết gì cho bà, tui chợt nhận ra mình có quá nhiều điều muốn nói, nhưng gom lại thì điều đầu tiên nảy lên trong đầu tui lúc này chính là hai chữ biết ơn. biết ơn vì tụi mình đã có duyên gặp gỡ, và biết ơn vì Phúc đã bước vào cuộc sống của tui một cách tự nhiên và ấm áp đến vậy.
+      </p>
+
+      <p class="letter-body">
+        Phúc biết không, đôi khi tui thấy mình thật sự rất may mắn. gặp được một người để nói chuyện thì dễ, nhưng gặp được một người như bà, một người luôn suy nghĩ cho người khác, tinh tế trong từng hành động nhỏ, và lúc nào cũng mang đến cho tui cảm giác được trân trọng, thì lại là một món quà vô giá. 
+      </p>
+
+      <p class="letter-body">
+        tui vẫn luôn bất giác mỉm cười mỗi khi nhớ lại sự nắn nót, đôi lúc có chút sến sến nhưng lại vô cùng chân thành và đáng yêu từ bà. chính những điều nhỏ bé ấy của Phúc đã làm cho khoảng thời gian vừa qua của tui trở nên rực rỡ và ý nghĩa hơn rất nhiều.
+      </p>
+
+      <p class="letter-body">
+        tụi mình từng bâng khuâng không biết sau này mọi chuyện sẽ ra sao. thật ra thì, tui cũng chẳng đoán trước được tương lai đâu. nhưng tui biết chắc chắn một điều ở hiện tại, Bảo húi rất thương quý bà này. và dù cho cuộc sống phía trước có bận rộn hay thay đổi thế nào, tui vẫn mong trên chặng đường của tuổi 22 và cả những năm tháng sau này nữa, tui vẫn sẽ luôn được ở đây. là một người để Phúc có thể blu bla chia sẻ niềm vui, và cũng là nơi để bà thoải mái dựa vào mỗi khi thấy chông chênh mệt mỏi.
+      </p>
+
+      <p class="letter-body">
+        bước sang tuổi mới, tui chẳng mong cầu gì quá to tát cho bà đâu. tui chỉ mong Phúc của tui sẽ luôn giữ được giọng cười khác người ấy. mong bà luôn khỏe mạnh, ăn 3 bữa ngủ 7 tiếng, và bớt suy nghĩ khồn lùng lại về việc kết thúc, dù là kết thúc bất cứ điều gì. chúc bà có đủ dũng khí để làm những điều mình thích, đủ kiên cường để vượt qua khó khăn, và lúc nào cũng có đầy ắp yêu thương bao bọc xung quanh mình.
+      </p>
+
+      <p class="letter-body" style="margin-top:32px; font-style:italic; color:var(--gold);">
+        chúc Phúc sinh nhật tuổi 22 thật ấm áp và trọn vẹn niềm vui. mong bà luôn bình an trên mọi nẻo đường mà bà chọn. tui luôn ở đây và trân trọng bà rất nhiều! 🎂💖
+      </p>
+
+      <div class="letter-sign">
+        <p class="letter-sign-line">từ người luôn yêu quý bà,</p>
+        <p class="letter-sign-name">Bảo ✦</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: WISHES ===== -->
+<section id="wishes">
+  <div class="shimmer-line"></div>
+  <h2 class="wishes-title reveal-title">những điều tui muốn gửi đến bà</h2>
+  <p class="wishes-subtitle reveal-sub">cho một năm 22 thật rực rỡ 🌸</p>
+
+  <div class="wishes-grid">
+    <div class="wish-card reveal-wish" style="transition-delay:0.1s">
+      <span class="wish-icon">🌙</span>
+      <p class="wish-text">
+        <strong>bình an</strong>
+        mong bà luôn tìm được sự tĩnh lặng, dù cuộc sống có bộn bề đến đâu.
+      </p>
+    </div>
+    <div class="wish-card reveal-wish" style="transition-delay:0.2s">
+      <span class="wish-icon">✨</span>
+      <p class="wish-text">
+        <strong>rực rỡ theo cách của bà</strong>
+        bà không cần phải là ai khác. chỉ cần là Phúc, là đã đủ rồi.
+      </p>
+    </div>
+    <div class="wish-card reveal-wish" style="transition-delay:0.3s">
+      <span class="wish-icon">🎯</span>
+      <p class="wish-text">
+        <strong>thực hiện được mọi điều ước</strong>
+        mọi thứ bà đang hướng tới, tui tin bà sẽ đến được.
+      </p>
+    </div>
+    <div class="wish-card reveal-wish" style="transition-delay:0.4s">
+      <span class="wish-icon">🫶</span>
+      <p class="wish-text">
+        <strong>luôn được yêu thương</strong>
+        bởi những người thật sự xứng đáng và chân thành.
+      </p>
+    </div>
+    <div class="wish-card reveal-wish" style="transition-delay:0.5s">
+      <span class="wish-icon">🛤️</span>
+      <p class="wish-text">
+        <strong>an toàn trên mọi nẻo đường</strong>
+        dù bà đi đâu, làm gì, mong chân bà luôn vững, tâm bà luôn ím.
+      </p>
+    </div>
+    <div class="wish-card reveal-wish" style="transition-delay:0.6s">
+      <span class="wish-icon">🌸</span>
+      <p class="wish-text">
+        <strong>hạnh phúc thật sự</strong>
+        không phải hạnh phúc gắng gượng mà là thứ hạnh phúc khiến bà cảm thấy bình thản.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: FINALE ===== -->
+<section id="finale">
+  <canvas id="fireworkCanvas"></canvas>
+  <p class="finale-tagline reveal-finale">✦ &nbsp; 30 · 04 · 2026 &nbsp; ✦</p>
+  <h2 class="finale-big reveal-finale2">chúc mừng sinh<br>nhật lần thứ 22,<br>Phúc húi!</h2>
+  <p class="finale-sub reveal-finale3">quanh năm đều hạnh phúc,<br>mong bà luôn bình an trên mọi nẻo đường. ♡</p>
+<img src="her.jpg" alt="Phúc" class="cat-art reveal-cat">
+<p class="cat-caption reveal-cat2">my 'onest reaction' ✨</p> 
+</section>
+
+<footer>
+  Made with <span>♡</span> từ Bảo - many happy Returns, Phúc!
+</footer>
+
+<script>
+// ======= CURSOR =======
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursorTrail');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
+  }, 80);
+});
+
+// ======= STAR CANVAS =======
+const starCanvas = document.getElementById('starCanvas');
+const ctx = starCanvas.getContext('2d');
+let stars = [];
+let shootingStars = [];
+
+function resizeCanvas() {
+  starCanvas.width = window.innerWidth;
+  starCanvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Generate stars
+for (let i = 0; i < 280; i++) {
+  stars.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.2,
+    alpha: Math.random(),
+    speed: Math.random() * 0.008 + 0.002,
+    phase: Math.random() * Math.PI * 2,
+  });
+}
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+  stars.forEach(s => {
+    const a = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 249, 240, ${a})`;
+    ctx.fill();
+  });
+  // Shooting stars
+  shootingStars = shootingStars.filter(ss => ss.alpha > 0);
+  shootingStars.forEach(ss => {
+    ctx.beginPath();
+    ctx.moveTo(ss.x, ss.y);
+    ctx.lineTo(ss.x - ss.len * Math.cos(ss.angle), ss.y - ss.len * Math.sin(ss.angle));
+    const grad = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.len * Math.cos(ss.angle), ss.y - ss.len * Math.sin(ss.angle));
+    grad.addColorStop(0, `rgba(232,200,122,${ss.alpha})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ss.x += ss.vx;
+    ss.y += ss.vy;
+    ss.alpha -= 0.018;
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars(0);
+
+// Spawn shooting stars
+setInterval(() => {
+  shootingStars.push({
+    x: Math.random() * window.innerWidth * 0.7,
+    y: Math.random() * window.innerHeight * 0.5,
+    vx: 4 + Math.random() * 4,
+    vy: 2 + Math.random() * 2,
+    len: 80 + Math.random() * 60,
+    angle: Math.atan2(2, 4),
+    alpha: 1,
+  });
+}, 3000);
+
+// ======= FLOATING PETALS =======
+const petals = ['🌸','✨','⭐','🌟','💫','🌺'];
+const petalsContainer = document.getElementById('petals');
+for (let i = 0; i < 16; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petals[Math.floor(Math.random() * petals.length)];
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.animationDuration = (8 + Math.random() * 10) + 's';
+  p.style.animationDelay = (Math.random() * 8) + 's';
+  p.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+  p.style.opacity = 0.4 + Math.random() * 0.4;
+  petalsContainer.appendChild(p);
+}
+
+// ======= AUDIO =======
+const music = document.getElementById('bgMusic');
+let playing = false;
+function toggleAudio() {
+  if (playing) {
+    music.pause();
+    document.getElementById('audioIcon').textContent = '♪';
+    document.getElementById('audioLabel').textContent = 'Bật nhạc';
+    playing = false;
+  } else {
+    music.play().catch(() => {});
+    document.getElementById('audioIcon').textContent = '♫';
+    document.getElementById('audioLabel').textContent = 'Tắt nhạc';
+    playing = true;
+  }
+}
+
+// ======= SCROLL REVEAL =======
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .reveal-card, .reveal-title, .reveal-sub, .wish-card, .finale-tagline, .finale-big, .finale-sub, .cat-art, .cat-caption').forEach(el => {
+  observer.observe(el);
+});
+
+// ======= FIREWORKS =======
+const fwCanvas = document.getElementById('fireworkCanvas');
+const fwCtx = fwCanvas.getContext('2d');
+let particles = [];
+
+function resizeFW() {
+  const section = document.getElementById('finale');
+  fwCanvas.width = section.offsetWidth;
+  fwCanvas.height = section.offsetHeight;
+}
+resizeFW();
+window.addEventListener('resize', resizeFW);
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x; this.y = y;
+    this.color = color;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 4;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed - 1;
+    this.alpha = 1;
+    this.decay = 0.012 + Math.random() * 0.01;
+    this.r = 1.5 + Math.random() * 2;
+    this.gravity = 0.06;
+  }
+  update() {
+    this.vx *= 0.97;
+    this.vy = this.vy * 0.97 + this.gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.alpha -= this.decay;
+  }
+  draw(ctx) {
+    ctx.globalAlpha = Math.max(0, this.alpha);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+const fwColors = ['#e8c87a','#f2c4b8','#d4836a','#c4b8d4','#fdf6ec','#fff5cc','#ffb3c1'];
+
+function burst(x, y) {
+  const color = fwColors[Math.floor(Math.random() * fwColors.length)];
+  for (let i = 0; i < 60; i++) {
+    particles.push(new Particle(x, y, color));
+  }
+}
+
+function animateFW() {
+  fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+  particles = particles.filter(p => p.alpha > 0);
+  particles.forEach(p => { p.update(); p.draw(fwCtx); });
+  fwCtx.globalAlpha = 1;
+  requestAnimationFrame(animateFW);
+}
+animateFW();
+
+// Auto fireworks when finale is visible
+let fireworkInterval;
+const finaleObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (!fireworkInterval) {
+        fireworkInterval = setInterval(() => {
+          const x = 50 + Math.random() * (fwCanvas.width - 100);
+          const y = 50 + Math.random() * (fwCanvas.height * 0.6);
+          burst(x, y);
+        }, 700);
+      }
+    } else {
+      clearInterval(fireworkInterval);
+      fireworkInterval = null;
+    }
+  });
+}, { threshold: 0.3 });
+finaleObserver.observe(document.getElementById('finale'));
+
+// Click anywhere for fireworks on finale section
+document.getElementById('finale').addEventListener('click', e => {
+  const rect = fwCanvas.getBoundingClientRect();
+  burst(e.clientX - rect.left, e.clientY - rect.top);
+});
+
+// Finale class reveals
+const finaleObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.finale-tagline').forEach(el => el.classList.add('visible'));
+      setTimeout(() => document.querySelectorAll('.finale-big').forEach(el => el.classList.add('visible')), 300);
+      setTimeout(() => document.querySelectorAll('.finale-sub').forEach(el => el.classList.add('visible')), 600);
+      setTimeout(() => document.querySelectorAll('.cat-art').forEach(el => el.classList.add('visible')), 900);
+      setTimeout(() => document.querySelectorAll('.cat-caption').forEach(el => el.classList.add('visible')), 1100);
+    }
+  });
+}, { threshold: 0.2 });
+finaleObs.observe(document.getElementById('finale'));
+</script>
+</body>
+</html>
